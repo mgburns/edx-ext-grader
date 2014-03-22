@@ -95,7 +95,7 @@ class GraderWorker(multiprocessing.Process):
         log.info("Submission received: %s", submission)
 
         # Evaluate the submission
-        response = self.grader.grade(submission)
+        response = self.grader.handle_submission(submission)
         log.info("Response received: %s", response)
 
         # Only acknowledge message handling of response is good

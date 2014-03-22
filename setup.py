@@ -7,5 +7,5 @@ setup(name='edx-ext-grader',
       author='Mike Burns',
       author_email='mgburns@bu.edu',
       packages=['edx_ext_grader'],
-      install_requires=['pika'],
+      install_requires=['pika', 'requests'],
       )

@@ -1,3 +1,4 @@
+import json
 import logging
 
 from ..xqueue import XQueueClient
@@ -13,13 +14,17 @@ class BaseGrader(object):
         log.info("[%s] Handling submission: %s", self.__class__.__name__, submission)
         response = self.grade(submission)
         if response:
-            self.post_response(response)
+            self.post_response(submission, response)
             return True
         return False
 
-    def post_response(self, response):
-        result = self.xqueue.put_result(response)
-        log.info("[%s] Posted response to XQueue: %s -- Result: %s", self.__class__.__name__, response, result)
+    def post_response(self, submission, response):
+        xresponse = {
+            "xqueue_header": json.dumps(submission['xqueue_header']),
+            "xqueue_body": json.dumps(response)
+        }
+        result = self.xqueue.put_result(xresponse)
+        log.info("[%s] Posted response to XQueue: %s -- Result: %s", self.__class__.__name__, xresponse, result)
 
     def grade(self, submission):
         """
